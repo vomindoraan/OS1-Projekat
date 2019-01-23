@@ -4,27 +4,38 @@ INC_DIR  = include
 LIB_DIR  = lib
 SRC_DIR  = src
 H_DIR    = h
+USER_DIR = user
 TEST_DIR = test
 OUT_DIR  = output
 
 BCC      = $(BC_DIR)\bin\bcc.exe
-INC_PATH = $(BC_DIR)\include;$(INC_DIR);$(H_DIR);$(TEST_DIR)
+INC_PATH = $(BC_DIR)\include;$(INC_DIR);$(H_DIR);$(USER_DIR);$(TEST_DIR)
 LIB_PATH = $(BC_DIR)\lib
+OPTIONS  = -mh -v -y -I$(INC_PATH) -L$(LIB_PATH) -n$(OUT_DIR)
 
-SOURCES  = $(SRC_DIR)\*.cpp $(TEST_DIR)\*.cpp
-HEADERS  = $(H_DIR)\*.h $(TEST_DIR)\*.h
+SRC      = $(SRC_DIR)\*.cpp
+USER_SRC = $(SRC) $(USER_DIR)\*.cpp
+TEST_SRC = $(SRC) $(TEST_DIR)\*.cpp
 LIBS     = $(LIB_DIR)\*.lib
-TARGET   = proj.exe
+USER_EXE = os1_user.exe
+TEST_EXE = os1_test.exe
 
-$(TARGET): $(BCC) $(SOURCES) $(HEADERS) $(LIBS) $(OUT_DIR)
-	$(BCC) -mh -v -y -I$(INC_PATH) -L$(LIB_PATH) -n$(OUT_DIR) -e$(TARGET) $(SOURCES) $(LIBS)
+$(USER_EXE): $(OUT_DIR) $(BCC) $(USER_SRC) $(LIBS)
+	$(BCC) $(OPTIONS) -e$(USER_EXE) $(USER_SRC) $(LIBS)
+
+$(TEST_EXE): $(OUT_DIR) $(BCC) $(TEST_SRC) $(LIBS)
+	$(BCC) $(OPTIONS) -e$(TEST_EXE) $(TEST_SRC) $(LIBS)
 
 $(OUT_DIR):
 	if not exist $(OUT_DIR) md $(OUT_DIR)
 
-all: $(TARGET)
+user: $(USER_EXE)
+
+test: $(TEST_EXE)
+
+all: user test
 
 clean: $(OUT_DIR)
 	-del $(OUT_DIR)\*.obj
 	-del $(OUT_DIR)\*.asm
-	-del $(OUT_DIR)\$(TARGET)
+	-del $(OUT_DIR)\*.exe
