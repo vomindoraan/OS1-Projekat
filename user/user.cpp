@@ -72,7 +72,7 @@ Producer::Producer (BoundedBuffer* bb, char y, Time time_slice)
 	while(!theEnd) {
 		char d = produce();
 		myBuffer->append(d);
-		// Thread::sleep(10);
+		for (unsigned long i = 0; i < 100000000; i++);
 	}
 }
 
@@ -92,7 +92,7 @@ void Consumer::run () {
 		char d = myBuffer->take();
 		consume(d);
 		if (i++ == 40) {
-			// Thread::sleep(5);
+			for (unsigned long i = 0; i < 1000000; i++);
 			i = 0;
 		}else for(int j=0;j<200;j++);
 	}
