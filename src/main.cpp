@@ -20,9 +20,11 @@ int main(int argc, char* argv[])
 	initIVT();
 
 	HARD_LOCKED(cout << "Test" << endl);
+	int ret = userMain(argc, argv);
 
 	restoreIVT();
 
 	HARD_LOCKED(cout << "Finish" << endl);
-	return 0;
+
+	return ret;
 }

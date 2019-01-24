@@ -1,4 +1,5 @@
 #include "pcb.h"
+#include "idle.h"
 #include "locks.h"
 #include <dos.h>
 
@@ -23,13 +24,14 @@ PCB::~PCB()
 void PCB::waitToComplete()
 {
     LOCKED(
-        // Can't wait on itself nor on terminated threads nor on the idle thread
+        /* Can't wait on itself nor on terminated threads nor on the idle thread */
         if (PCB::running != this && state() != PCB::TERMINATED && this != Idle::instance()) {
             PCB::running->state(PCB::BLOCKED);
             waiting_.pushBack(PCB::running);
-            dispatch(); // TODO: Maybe move dispatch out of LOCKED
+            dispatch();
         }
     )
+    // TODO: Maybe move dispatch out of LOCKED
 }
 
 void PCB::initializeStack(WrapperFunc wrapper)

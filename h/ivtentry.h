@@ -17,14 +17,14 @@ public:
 };
 
 
-#define PREPAREENTRY(ivtNo,callOldInterruptRoutine)\
-extern IVTEntry ivtEntry##ivtNo;\
-\
-void interrupt eventInterrupt##ivtNo(){\
-	if (callOldInterruptRoutine) ivtEntry##ivtNo.oldInterruptRoutine();\
-	ivtEntry##ivtNo.signal();\
-}\
-\
-IVTEntry ivtEntry##ivtNo(ivtNo,eventInterrupt##ivtNo)
+// #define PREPAREENTRY(ivtNo,callOldInterruptRoutine)\
+// extern IVTEntry ivtEntry##ivtNo;\
+// \
+// void interrupt eventInterrupt##ivtNo(){\
+// 	if (callOldInterruptRoutine) ivtEntry##ivtNo.oldInterruptRoutine();\
+// 	ivtEntry##ivtNo.signal();\
+// }\
+// \
+// IVTEntry ivtEntry##ivtNo(ivtNo,eventInterrupt##ivtNo)
 
 #endif
