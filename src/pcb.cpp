@@ -1,4 +1,5 @@
 #include "pcb.h"
+#include "locks.h"
 
 StackSize const PCB::MAX_STACK_SIZE = 0x1000; // 64KB
 
@@ -14,6 +15,17 @@ PCB::~PCB()
 {
     waiting_.rescheduleAll();
     delete[] stack_;
+}
+
+void PCB::waitToComplete()
+{
+    LOCKED(
+        if (PCB::running != this && state() != PCB::TERMINATED && thread() != /* TODO */) {
+            PCB::running->state(PCB::BLOCKED);
+            waiting_.pushBack(PCB::running);
+            dispatch();
+        }
+    )
 }
 
 void PCB::wrapper()

@@ -4,8 +4,23 @@
 
 Thread::Thread(StackSize stackSize, Time timeSlice)
 {
-    HARD_LOCKED(
+    LOCKED(
         myPCB = new PCB(this, stackSize, timeSlice);
+    )
+}
+
+Thread::~Thread()
+{
+    LOCKED(
+        waitToComplete();
+        delete myPCB;
+    )
+}
+
+void Thread::start()
+{
+    LOCKED(
+        myPCB->reschedule();
     )
 }
 

@@ -36,6 +36,8 @@ public:
 
 	void reschedule() { LOCKED(state_ = READY; Scheduler::put(this)); }
 
+	void waitToComplete();
+
 	friend class Context;
 
 private:

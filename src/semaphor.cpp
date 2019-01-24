@@ -1,27 +1,40 @@
 #include "semaphor.h"
+#include "locks.h"
 #include "kernsem.h"
 
 Semaphore::Semaphore(int init)
 {
-	myImpl = new KernelSem(init);
+    LOCKED(
+	    myImpl = new KernelSem(init);
+    )
 }
 
 Semaphore::~Semaphore()
 {
-	delete myImpl;
+    LOCKED(
+	    delete myImpl;
+    )
 }
 
 int Semaphore::wait(int toBlock)
 {
-	return myImpl->wait(toBlock);
+    LOCKED(
+	    int ret = myImpl->wait(toBlock);
+    )
+    return ret;
 }
 
 void Semaphore::signal()
 {
-	myImpl->signal();
+    LOCKED(
+	    myImpl->signal();
+    )
 }
 
 int Semaphore::val() const
 {
-	return myImpl->val();
+    LOCKED(
+	    int ret = myImpl->val();
+    )
+    return ret;
 }
