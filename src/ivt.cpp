@@ -11,13 +11,13 @@ void initIVT()
 {
 	HARD_LOCKED(
 		oldTimerInterrupt = getvect(IVTNO_TIMER);
-		setvect(IVTNO_TIMER,         Context::timerInterrupt);
+		setvect(IVTNO_TIMER, Context::timerInterrupt);
 	)
 }
 
 void restoreIVT()
 {
 	HARD_LOCKED(
-		setvect(IVTNO_TIMER,         oldTimerInterrupt);
+		setvect(IVTNO_TIMER, oldTimerInterrupt);
 	)
 }
