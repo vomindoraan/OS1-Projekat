@@ -18,7 +18,9 @@ public:
 		TERMINATED,
 	};
 
+	static Word      const PSW_INIT_VALUE;
 	static StackSize const MAX_STACK_SIZE;
+
 	static PCB* running;
 
 	PCB(StackSize stackSize, Time timeSlice, Thread* thread = NULL);
@@ -31,11 +33,13 @@ public:
 	State state()        const { return state_; }
 	void  state(State s)       { state_ = s; }
 
-	bool infinite() const { return timeSlice_ == 0; }
+	bool unlimitedDuration() const { return timeSlice_ == 0; }
 
 	void reschedule() { LOCKED(state_ = READY; Scheduler::put(this)); }
 
 	void waitToComplete();
+
+	static void sleep(Time timeToSleep);
 
 	friend class Context;
 

@@ -19,12 +19,15 @@ int main(int argc, char* argv[])
 
 	initIVT();
 
-	HARD_LOCKED(cout << "Test" << endl);
+	HARD_LOCKED(cout << "User" << endl);
 	int ret = userMain(argc, argv);
 
 	restoreIVT();
 
 	HARD_LOCKED(cout << "Finish" << endl);
+
+	delete mainPCB;
+	delete Idle::instance();
 
 	return ret;
 }

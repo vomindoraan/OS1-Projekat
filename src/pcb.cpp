@@ -3,7 +3,9 @@
 #include "locks.h"
 #include <dos.h>
 
+Word      const PCB::PSW_INIT_VALUE = 0x0200; // I=1
 StackSize const PCB::MAX_STACK_SIZE = 0x1000; // 64KB
+
 PCB* PCB::running = NULL;
 
 PCB::PCB(StackSize stackSize, Time timeSlice, Thread* thread)
@@ -22,6 +24,18 @@ PCB::~PCB()
 	if (stack_) delete[] stack_;
 }
 
+void PCB::initializeStack(WrapperFunc wrapper)
+{
+	stack_ = new Word[stackCount_];
+
+	stack_[stackCount_ - 1] = PSW_INIT_VALUE;  // PSW
+	stack_[stackCount_ - 2] = FP_SEG(wrapper); // CS
+	stack_[stackCount_ - 3] = FP_OFF(wrapper); // IP
+
+	ss_ =       FP_SEG(stack_ + stackCount_ - 12);
+	sp_ = bp_ = FP_OFF(stack_ + stackCount_ - 12);
+}
+
 void PCB::waitToComplete()
 {
 	LOCKED(
@@ -35,16 +49,13 @@ void PCB::waitToComplete()
 	// TODO: Maybe move dispatch out of LOCKED
 }
 
-void PCB::initializeStack(WrapperFunc wrapper)
+void PCB::sleep(Time timeToSleep)
 {
-	stack_ = new Word[stackCount_];
-
-	stack_[stackCount_ - 1] = 0x0200;          // PSWI=1
-	stack_[stackCount_ - 2] = FP_SEG(wrapper); // CS
-	stack_[stackCount_ - 3] = FP_OFF(wrapper); // IP
-
-	ss_ =       FP_SEG(stack_ + stackCount_ - 12);
-	sp_ = bp_ = FP_OFF(stack_ + stackCount_ - 12);
+	if (!timeToSleep) return;
+	LOCKED(
+		sleepList->add(PCB::running, timeToSleep);
+		dispatch();
+	)
 }
 
 void PCB::threadWrapper()

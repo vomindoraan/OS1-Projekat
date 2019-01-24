@@ -3,6 +3,13 @@
 #include "locks.h"
 #include "schedule.h"
 
+PCBList::~PCBList()
+{
+	LOCKED(
+		while (popFront());
+	)
+}
+
 void PCBList::pushBack(PCB* pcb)
 {
 	LOCKED(
@@ -19,14 +26,14 @@ void PCBList::pushBack(PCB* pcb)
 PCB* PCBList::popFront()
 {
 	LOCKED(
-		if (!front_) return NULL;
-
-		PCB* ret = front_->pcb;
-		Node* old = front_;
-		front_ = front_->next;
-		if (!front_) back_ = NULL;
-
-		delete old;
+		PCB* ret = NULL;
+		if (front) {
+			ret = front_->pcb;
+			Node* temp = front_;
+			front_ = front_->next;
+			if (!front_) back_ = NULL;
+			delete temp;
+		}
 	)
 	return ret;
 }

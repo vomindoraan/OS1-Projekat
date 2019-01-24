@@ -9,7 +9,7 @@ class PCB;
 class PCBList {
 public:
 	PCBList() : front_(NULL), back_(NULL) {}
-	~PCBList() { while (popFront()); }
+	~PCBList();
 
 	PCB* front() const { return front_->pcb; }
 	PCB* back()  const { return back_->pcb; }
@@ -22,7 +22,7 @@ public:
 
 private:
 	struct Node {
-		PCB* pcb;
+		PCB*  pcb;
 		Node* next;
 
 		Node(PCB* pcb, Node* next = NULL) : pcb(pcb), next(next) {}

@@ -31,6 +31,13 @@ void Thread::waitToComplete()
 	)
 }
 
+void sleep(Time timeToSleep)
+{
+	LOCKED(
+		PCB::sleep(timeToSleep);
+	)
+}
+
 void dispatch()
 {
 	HARD_LOCKED(

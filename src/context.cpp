@@ -5,7 +5,7 @@
 #include "pcb.h"
 
 bool volatile Context::lockTimedOut_ = false;
-bool volatile Context::requested_ = false;
+bool volatile Context::requested_    = false;
 
 static Register volatile tsp, tss, tbp;
 
@@ -15,6 +15,7 @@ void interrupt Context::timerInterrupt(...)
 
 	if (!requested_) {
 		oldTimerInterrupt();
+		sleepList->wakeUp();
 		tick();
 
 		if (timeLeft > 0) {
@@ -23,7 +24,7 @@ void interrupt Context::timerInterrupt(...)
 		}
 	}
 
-	if (requested_ || (!PCB::running->infinite() && timeLeft == 0 && !lock)) {
+	if (requested_ || (!PCB::running->unlimitedDuration() && timeLeft == 0 && !lock)) {
 		asm {
 			mov tss, ss;
 			mov tsp, sp;
