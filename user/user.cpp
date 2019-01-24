@@ -7,9 +7,10 @@
 #include <stdlib.h>
 
 #include <event.h>
+#include <thread.h>
 #include "bounded.h"
 #include "intLock.h"
-#include "keyevent.h"
+// #include "keyevent.h"
 #include "user.h"
 
 //---------------------------------------------------------------------------//
@@ -141,7 +142,7 @@ int userMain (int argc, char* argv[])
 
 	buff = new BoundedBuffer(buffSize);
 	Producer **pro = new Producer*[N];
-	KeyboardEvent* kev;
+	// KeyboardEvent* kev;
 	int i;
 
 	con = new Consumer(buff);
@@ -153,16 +154,16 @@ int userMain (int argc, char* argv[])
 		pro[i]->start();
 	}
 
-	kev = new KeyboardEvent(buff);
+	// kev = new KeyboardEvent(buff);
 	intUnlock
 
-	kev->start();
+	// kev->start();
 
 	for (i=0; i<N; i++){
 		delete pro[i];
 	}
 	delete [] pro;
-	delete kev;
+	// delete kev;
 	delete con;
 	delete buff;
 
