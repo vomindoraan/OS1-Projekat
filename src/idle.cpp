@@ -1,4 +1,6 @@
 #include "idle.h"
+#include "locks.h"
+#include <iostream.h>
 #include <stdlib.h>
 
 Idle* Idle::instance_ = NULL;
@@ -17,7 +19,8 @@ Idle::Idle(StackSize stackSize, Time timeSlice)
 
 void Idle::idleWrapper()
 {
+	HARD_LOCKED(cout << "========== IDLE ==========" << endl);
     while (true) {
-        dispatch(); // TODO: Number of threads
+        // dispatch(); // TODO: Number of threads
     }
 }
