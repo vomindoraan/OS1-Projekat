@@ -4,6 +4,7 @@
 #include <dos.h>
 
 StackSize const PCB::MAX_STACK_SIZE = 0x1000; // 64KB
+PCB* PCB::running = NULL;
 
 PCB::PCB(StackSize stackSize, Time timeSlice, Thread* thread)
     : thread_(thread), stack_(NULL)

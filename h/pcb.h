@@ -19,7 +19,6 @@ public:
 	};
 
 	static StackSize const MAX_STACK_SIZE;
-
 	static PCB* running;
 
 	PCB(StackSize stackSize, Time timeSlice, Thread* thread = NULL);

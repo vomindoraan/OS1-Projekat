@@ -24,6 +24,13 @@ void Thread::start()
     )
 }
 
+void Thread::waitToComplete()
+{
+    LOCKED(
+        myPCB->waitToComplete();
+    )
+}
+
 void dispatch()
 {
     HARD_LOCKED(
