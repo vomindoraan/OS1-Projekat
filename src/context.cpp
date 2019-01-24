@@ -37,9 +37,11 @@ void interrupt Context::timerInterrupt(...)
         if (PCB::running->state() == PCB::RUNNING && PCB::running != Idle::instance()) {
             PCB::running->state(PCB::READY);
             Scheduler::put(PCB::running);
+			HARD_LOCKED(cout << endl << requested_ << " put " << PCB::running << endl);
         }
 
         PCB::running = Scheduler::get();
+		// HARD_LOCKED(cout << "get " << PCB::running << endl);
         if (!PCB::running) PCB::running = Idle::instance();
         PCB::running->state(PCB::RUNNING);
         PCB::running->timeLeft_ = PCB::running->timeSlice_;

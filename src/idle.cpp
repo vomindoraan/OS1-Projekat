@@ -1,6 +1,5 @@
 #include "idle.h"
 #include "locks.h"
-#include <iostream.h>
 #include <stdlib.h>
 
 Idle* Idle::instance_ = NULL;

@@ -27,9 +27,10 @@ void PCB::waitToComplete()
     LOCKED(
         /* Can't wait on itself nor on terminated threads nor on the idle thread */
         if (PCB::running != this && state() != PCB::TERMINATED && this != Idle::instance()) {
+			cout << "blockkkkkkkkkkkkkkkkkkkkkk" << PCB::running << endl;
             PCB::running->state(PCB::BLOCKED);
             waiting_.pushBack(PCB::running);
-            dispatch();
+			dispatch();
         }
     )
     // TODO: Maybe move dispatch out of LOCKED

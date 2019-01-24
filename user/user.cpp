@@ -81,7 +81,7 @@ Producer::Producer (BoundedBuffer* bb, char y, Time time_slice)
 
 void Consumer::consume(char p) {
 	intLock
-	cout<<p<<" ";
+	// cout<<p<<" ";
 	intUnlock
 } // Consume an item
 
@@ -151,6 +151,7 @@ int userMain (int argc, char* argv[])
 	for (i=0; i<N; i++){
 		pro[i] = new Producer(buff,'0'+i, TIME_SLICE);
 		pro[i]->start();
+		cout << "Producer " << i << endl;
 	}
 
 	// kev = new KeyboardEvent(buff);

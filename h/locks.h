@@ -3,6 +3,7 @@
 
 #include "context.h"
 #include "types.h"
+#include <iostream.h>
 
 extern Word volatile lock;
 void dispatch();
