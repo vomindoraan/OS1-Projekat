@@ -8,6 +8,6 @@ typedef unsigned int  Time; // 55 ms multiples
 typedef int           ID;
 
 typedef unsigned char IVTNo;
-typedef void interrupt (*InterruptRoutine)();
+typedef void interrupt (*InterruptRoutine)(...);
 
 #endif

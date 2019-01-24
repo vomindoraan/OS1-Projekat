@@ -1,7 +1,9 @@
 #include "ivt.h"
 #include "context.h"
 // #include "syscall.h"
+#include "types.h"
 #include <dos.h>
+#include <stdlib.h>
 
 InterruptRoutine oldTimer = NULL;
 

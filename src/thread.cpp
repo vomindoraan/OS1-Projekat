@@ -1,4 +1,5 @@
 #include "thread.h"
+#include "pcb.h"
 #include "locks.h"
 
 Thread::Thread(StackSize stackSize, Time timeSlice)

@@ -8,7 +8,7 @@ extern int volatile globalLock;
 void dispatch();
 
 #define LOCK      globalLock++
-#define UNLOCK    if (--globalLock == 0 && Context::timeUp) { dispatch(); }
+#define UNLOCK    if (--globalLock == 0 && Context::timeUp()) { dispatch(); }
 #define LOCKED(s) LOCK; s; UNLOCK;
 
 #define HARD_LOCK      asm { pushf; cli; }

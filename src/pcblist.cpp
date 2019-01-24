@@ -1,4 +1,5 @@
 #include "pcblist.h"
+#include "pcb.h"
 #include "locks.h"
 #include "schedule.h"
 

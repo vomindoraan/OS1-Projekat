@@ -5,7 +5,7 @@
 
 class Context {
 public:
-    static bool timeUp;
+    static bool timeUp();
     static void interrupt timerInterrupt();
 
 private:

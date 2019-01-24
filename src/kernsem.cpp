@@ -5,19 +5,20 @@
 
 int KernelSem::wait(int toBlock)
 {
+    int ret = 0;
     LOCKED(
         if (toBlock) {
             if (--val_ < 0) {
                 block();
-                return 1;
+                ret = 1;
             }
-            return 0;
+        } else if (val_ <= 0) {
+            ret = -1;
+        } else {
+            --val_;
         }
-
-        if (val_ <= 0) return -1;
-        --val_;
-        return 0;
     )
+    return ret;
 }
 
 void KernelSem::signal()

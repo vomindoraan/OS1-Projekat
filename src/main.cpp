@@ -11,4 +11,6 @@ int main(int argc, char* argv[]) {
 	// restoreIVT();
 
 	HARD_LOCKED(cout << "Finish" << endl);
+
+	return 0;
 }
