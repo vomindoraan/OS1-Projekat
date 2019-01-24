@@ -5,7 +5,7 @@
 //===========================================================================//
 #include <iostream.h>
 #include <stdlib.h>
-
+#include "pcb.h"
 #include <event.h>
 #include "bounded.h"
 #include "intLock.h"
@@ -71,8 +71,14 @@ Producer::Producer (BoundedBuffer* bb, char y, Time time_slice)
 	void Producer::run () {
 	while(!theEnd) {
 		char d = produce();
+		intLock
+		cout << " append " << d << " " << PCB::running;
+		intUnlock
 		myBuffer->append(d);
 		for (unsigned long i = 0; i < 100000000; i++);
+		intLock
+		cout << " WAIT " << d << " " << PCB::running << endl;
+		intUnlock
 	}
 }
 
