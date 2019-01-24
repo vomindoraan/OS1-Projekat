@@ -1,11 +1,12 @@
 #ifndef _THREAD_H_
 #define _THREAD_H_
 
-#include "pcb.h"
 #include "types.h"
 
-const StackSize defaultStackSize = 4096;
-const Time defaultTimeSlice = 2; // default = 2*55ms
+StackSize const defaultStackSize = 4096;
+Time const defaultTimeSlice = 2; // default = 2*55ms
+
+class PCB; // Kernel's implementation of a user's thread
 
 class Thread {
 public:
@@ -17,11 +18,11 @@ public:
 	static void sleep(Time timeToSleep);
 
 protected:
-	friend class PCB;
-
 	Thread(StackSize stackSize = defaultStackSize, Time timeSlice = defaultTimeSlice);
 
 	virtual void run() {}
+
+	friend class PCB;
 
 private:
 	PCB* myPCB;

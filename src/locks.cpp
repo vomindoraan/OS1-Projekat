@@ -1,3 +1,3 @@
 #include "locks.h"
 
-bool globalLock;
+int volatile globalLock = 0;

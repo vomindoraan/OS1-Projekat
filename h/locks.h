@@ -1,16 +1,18 @@
 #ifndef _LOCKS_H_
 #define _LOCKS_H_
 
+#include "context.h"
 #include "types.h"
 
-extern bool globalLock;
+extern int volatile globalLock;
+void dispatch();
 
-#define LOCK()    globalLock = true
-#define UNLOCK()  globalLock = false
-#define LOCKED(s) LOCK(); s; UNLOCK();
+#define LOCK      globalLock++
+#define UNLOCK    if (--globalLock == 0 && Context::timeUp) { dispatch(); }
+#define LOCKED(s) LOCK; s; UNLOCK;
 
-#define MASK()    asm { pushf; cli; }
-#define UNMASK()  asm popf
-#define MASKED(s) MASK(); s; UNMASK();
+#define HARD_LOCK      asm { pushf; cli; }
+#define HARD_UNLOCK    asm popf
+#define HARD_LOCKED(s) HARD_LOCK; s; HARD_UNLOCK;
 
 #endif

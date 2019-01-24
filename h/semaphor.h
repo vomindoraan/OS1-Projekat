@@ -1,7 +1,7 @@
 #ifndef _SEMAPHOR_H_
 #define _SEMAPHOR_H_
 
-#include "kernsem.h"
+class KernelSem;
 
 class Semaphore {
 public:
