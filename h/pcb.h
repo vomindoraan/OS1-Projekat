@@ -6,6 +6,7 @@
 #include "schedule.h"
 #include "thread.h"
 #include "types.h"
+#include <stdlib.h>
 
 class PCB {
 public:
@@ -18,11 +19,10 @@ public:
 	};
 
 	static StackSize const MAX_STACK_SIZE;
-    static PCB* running;
 
-	static void wrapper();
+	static PCB* running;
 
-	PCB(Thread* thread, StackSize stackSize, Time timeSlice);
+	PCB(StackSize stackSize, Time timeSlice, Thread* thread = NULL);
 	~PCB();
 
 	Thread*   thread()     const { return thread_; }
@@ -40,8 +40,11 @@ public:
 
 	friend class Context;
 
+protected:
+	void initializeStack(WrapperFunc wrapper);
+
 private:
-	Thread*   thread_;
+	Thread* thread_;
 
 	// Stack data
 	StackSize         stackCount_;
@@ -49,19 +52,15 @@ private:
 	Register volatile ss_, sp_, bp_;
 
 	// Time sharing data
-	Time    timeSlice_;
-	Time    timeLeft_;
-	State   state_;
-	Word    savedLock_;
+	Time  timeSlice_;
+	Time  timeLeft_;
+	State state_;
+	Word  savedLock_;
 
 	// Wait/sleep data
 	PCBList waiting_;
 
-	void loadRegs(Register  ss, Register  sp, Register  bp) { ss_ = ss; sp_ = sp; bp_ = bp; }
-	void saveRegs(Register& ss, Register& sp, Register& bp) { ss = ss_; sp = sp_; bp = bp_; }
-
-	void loadLock(Word  lock) { savedLock_ = lock; }
-	void saveLock(Word& lock) { lock = savedLock_; }
+	static void threadWrapper();
 };
 
 #endif

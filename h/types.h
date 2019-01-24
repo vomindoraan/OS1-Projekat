@@ -15,4 +15,6 @@ typedef          int  ID;
 typedef unsigned char IVTNo;
 typedef void interrupt (*InterruptRoutine)(...);
 
+typedef void (*WrapperFunc)();
+
 #endif

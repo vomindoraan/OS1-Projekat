@@ -5,7 +5,7 @@
 Thread::Thread(StackSize stackSize, Time timeSlice)
 {
     LOCKED(
-        myPCB = new PCB(this, stackSize, timeSlice);
+        myPCB = new PCB(stackSize, timeSlice, this);
     )
 }
 
