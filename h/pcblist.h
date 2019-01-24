@@ -8,12 +8,12 @@ class PCB;
 
 class PCBList {
 public:
-    PCBList() : front_(NULL), back_(NULL), size_(0) {}
+    PCBList() : front_(NULL), back_(NULL) {}
     ~PCBList() { while (popFront()); }
 
     PCB* front() const { return front_->pcb; }
     PCB* back()  const { return back_->pcb; }
-    bool empty() const { return size_ == 0; }
+    bool empty() const { return !front_; }
 
     void pushBack(PCB* pcb);
     PCB* popFront();
@@ -28,9 +28,8 @@ private:
         Node(PCB* pcb, Node* next = NULL) : pcb(pcb), next(next) {}
     };
 
-    Node*    front_;
-    Node*    back_;
-    unsigned size_;
+    Node* front_;
+    Node* back_;
 };
 
 #endif
