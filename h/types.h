@@ -1,7 +1,9 @@
 #ifndef _TYPES_H_
 #define _TYPES_H_
 
-enum bool { false, true };
+typedef int bool;
+#define false 0
+#define true  1
 
 typedef unsigned long StackSize;
 typedef unsigned int  Time; // 55 ms multiples
