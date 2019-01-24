@@ -6,7 +6,7 @@
 class KernelSem {
 public:
 	KernelSem(int init = 1) : val_(init) {}
-    ~KernelSem() { blocked_.rescheduleAll(); }
+	~KernelSem() { blocked_.rescheduleAll(); }
 
 	int wait(int toBlock);
 	void signal();
@@ -15,10 +15,10 @@ public:
 
 private:
 	int     val_;
-    PCBList blocked_;
+	PCBList blocked_;
 
-    void block();
-    void deblock();
+	void block();
+	void deblock();
 };
 
 #endif

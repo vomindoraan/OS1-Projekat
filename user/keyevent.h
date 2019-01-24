@@ -16,7 +16,7 @@ class BoundedBuffer;
 class KeyboardEvent :public Thread{
 public:
 
-	KeyboardEvent (BoundedBuffer*);  
+	KeyboardEvent (BoundedBuffer*);
 	virtual ~KeyboardEvent () {waitToComplete();}
 protected:
 
@@ -25,7 +25,7 @@ protected:
 	char znak;
 
 private:
-  
+
 	BoundedBuffer* myBuffer;
 };
 

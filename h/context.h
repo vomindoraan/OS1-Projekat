@@ -7,17 +7,17 @@ void tick();
 
 class Context {
 public:
-    static void interrupt timerInterrupt(...);
+	static void interrupt timerInterrupt(...);
 
-    static bool lockTimedOut()  { return lockTimedOut_; }
-    static void requestChange() { requested_ = true; }
+	static bool lockTimedOut()  { return lockTimedOut_; }
+	static void requestChange() { requested_ = true; }
 
 private:
-    Context() {}
-    ~Context() {}
+	Context() {}
+	~Context() {}
 
-    static bool volatile lockTimedOut_;
-    static bool volatile requested_;
+	static bool volatile lockTimedOut_;
+	static bool volatile requested_;
 };
 
 #endif

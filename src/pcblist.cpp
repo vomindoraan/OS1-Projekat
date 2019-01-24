@@ -5,35 +5,35 @@
 
 void PCBList::pushBack(PCB* pcb)
 {
-    LOCKED(
-        Node* node = new Node(pcb);
-        if (!front_) {
-            front_ = node;
-        } else {
-            back_->next = node;
-        }
-        back_ = node;
-    )
+	LOCKED(
+		Node* node = new Node(pcb);
+		if (!front_) {
+			front_ = node;
+		} else {
+			back_->next = node;
+		}
+		back_ = node;
+	)
 }
 
 PCB* PCBList::popFront()
 {
-    LOCKED(
-        if (!front_) return NULL;
+	LOCKED(
+		if (!front_) return NULL;
 
-        PCB* ret = front_->pcb;
-        Node* old = front_;
-        front_ = front_->next;
-        if (!front_) back_ = NULL;
+		PCB* ret = front_->pcb;
+		Node* old = front_;
+		front_ = front_->next;
+		if (!front_) back_ = NULL;
 
-        delete old;
-    )
-    return ret;
+		delete old;
+	)
+	return ret;
 }
 
 void PCBList::rescheduleAll()
 {
-    LOCKED(
-        for (PCB* pcb; pcb = popFront(); pcb->reschedule());
-    )
+	LOCKED(
+		for (PCB* pcb; pcb = popFront(); pcb->reschedule());
+	)
 }

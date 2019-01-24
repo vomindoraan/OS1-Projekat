@@ -8,28 +8,28 @@ class PCB;
 
 class PCBList {
 public:
-    PCBList() : front_(NULL), back_(NULL) {}
-    ~PCBList() { while (popFront()); }
+	PCBList() : front_(NULL), back_(NULL) {}
+	~PCBList() { while (popFront()); }
 
-    PCB* front() const { return front_->pcb; }
-    PCB* back()  const { return back_->pcb; }
-    bool empty() const { return !front_; }
+	PCB* front() const { return front_->pcb; }
+	PCB* back()  const { return back_->pcb; }
+	bool empty() const { return !front_; }
 
-    void pushBack(PCB* pcb);
-    PCB* popFront();
+	void pushBack(PCB* pcb);
+	PCB* popFront();
 
-    void rescheduleAll();
+	void rescheduleAll();
 
 private:
-    struct Node {
-        PCB* pcb;
-        Node* next;
+	struct Node {
+		PCB* pcb;
+		Node* next;
 
-        Node(PCB* pcb, Node* next = NULL) : pcb(pcb), next(next) {}
-    };
+		Node(PCB* pcb, Node* next = NULL) : pcb(pcb), next(next) {}
+	};
 
-    Node* front_;
-    Node* back_;
+	Node* front_;
+	Node* back_;
 };
 
 #endif

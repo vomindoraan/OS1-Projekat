@@ -4,37 +4,37 @@
 
 Thread::Thread(StackSize stackSize, Time timeSlice)
 {
-    LOCKED(
-        myPCB = new PCB(stackSize, timeSlice, this);
-    )
+	LOCKED(
+		myPCB = new PCB(stackSize, timeSlice, this);
+	)
 }
 
 Thread::~Thread()
 {
-    LOCKED(
-        waitToComplete();
-        delete myPCB;
-    )
+	LOCKED(
+		waitToComplete();
+		delete myPCB;
+	)
 }
 
 void Thread::start()
 {
-    LOCKED(
-        myPCB->reschedule();
-    )
+	LOCKED(
+		myPCB->reschedule();
+	)
 }
 
 void Thread::waitToComplete()
 {
-    LOCKED(
-        myPCB->waitToComplete();
-    )
+	LOCKED(
+		myPCB->waitToComplete();
+	)
 }
 
 void dispatch()
 {
-    HARD_LOCKED(
-        Context::requestChange();
-        Context::timerInterrupt();
-    )
+	HARD_LOCKED(
+		Context::requestChange();
+		Context::timerInterrupt();
+	)
 }
