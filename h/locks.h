@@ -4,7 +4,7 @@
 #include "context.h"
 #include "types.h"
 
-extern int volatile lock;
+extern Word volatile lock;
 void dispatch();
 
 #define LOCK      ++lock

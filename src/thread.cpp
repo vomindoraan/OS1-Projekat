@@ -3,8 +3,11 @@
 #include "locks.h"
 
 Thread::Thread(StackSize stackSize, Time timeSlice)
-    : myPCB(new PCB(this, stackSize, timeSlice))
-{}
+{
+    HARD_LOCKED(
+        myPCB = new PCB(this, stackSize, timeSlice);
+    )
+}
 
 void dispatch()
 {

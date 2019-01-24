@@ -8,7 +8,8 @@ void tick();
 class Context {
 public:
     static void interrupt timerInterrupt(...);
-    static bool lockTimedOut() { return lockTimedOut_; }
+
+    static bool lockTimedOut()  { return lockTimedOut_; }
     static void requestChange() { requested_ = true; }
 
 private:

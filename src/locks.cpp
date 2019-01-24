@@ -1,3 +1,3 @@
 #include "locks.h"
 
-int volatile lock = 0;
+Word volatile lock = 0;

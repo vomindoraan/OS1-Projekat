@@ -1,6 +1,7 @@
 #ifndef _PCB_H_
 #define _PCB_H_
 
+#include "locks.h"
 #include "pcblist.h"
 #include "schedule.h"
 #include "thread.h"
@@ -16,32 +17,49 @@ public:
 		TERMINATED,
 	};
 
-	PCB(Thread* thread, StackSize stackSize, Time timeSlice)
-		: thread_(thread), stackSize_(stackSize), timeSlice_(timeSlice)
-		, timeLeft_(timeSlice), state_(NEW)
-	{}
-
-	~PCB() { waiting_.rescheduleAll(); }
+	static StackSize const MAX_STACK_SIZE;
+    static PCB* running;
 
 	static void wrapper();
-    static PCB* running;
+
+	PCB(Thread* thread, StackSize stackSize, Time timeSlice);
+	~PCB();
+
+	Thread*   thread()     const { return thread_; }
+	StackSize stackCount() const { return stackCount_; }
+	Time      timeSlice()  const { return timeSlice_; }
+
+	State state()        const { return state_; }
+	void  state(State s)       { state_ = s; }
 
 	bool infinite() const { return timeSlice_ == 0; }
 
-	State state() const { return state_; }
-	void state(State s) { state_ = s; }
-
-	void reschedule() { state_ = READY; Scheduler::put(this); }
+	void reschedule() { LOCKED(state_ = READY; Scheduler::put(this)); }
 
 	friend class Context;
 
 private:
 	Thread*   thread_;
-	StackSize stackSize_;
-	Time      timeSlice_;
-	Time      timeLeft_;
-	State     state_;
-	PCBList   waiting_;
+
+	// Stack data
+	StackSize         stackCount_;
+	Word*             stack_;
+	Register volatile ss_, sp_, bp_;
+
+	// Time sharing data
+	Time    timeSlice_;
+	Time    timeLeft_;
+	State   state_;
+	Word    savedLock_;
+
+	// Wait/sleep data
+	PCBList waiting_;
+
+	void saveRegs(Register  ss, Register  sp, Register  bp) { ss_ = ss; sp_ = sp; bp_ = bp; }
+	void loadRegs(Register& ss, Register& sp, Register& bp) { ss = ss_; sp = sp_; bp = bp_; }
+
+	void saveLock(Word  lock) { savedLock_ = lock; }
+	void loadLock(Word& lock) { lock = savedLock_; }
 };
 
 #endif
