@@ -156,13 +156,22 @@ int userMain (int argc, char* argv[])
 
 	// kev = new KeyboardEvent(buff);
 	intUnlock
-
+	for (unsigned long q = 0; q < -1; q++);
+	intLock
+	cout << "STUFFFFFFFFFFFFFFF" << endl;
+	intUnlock
 	// kev->start();
 
 	for (i=0; i<N; i++){
 		delete pro[i];
 	}
+	intLock
+	cout << "MOREEEEEEEEE" << endl;
+	intUnlock
 	delete [] pro;
+	intLock
+	cout << "lololololol" << endl;
+	intUnlock
 	// delete kev;
 	delete con;
 	delete buff;
