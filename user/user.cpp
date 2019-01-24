@@ -145,13 +145,13 @@ int userMain (int argc, char* argv[])
 	int i;
 
 	con = new Consumer(buff);
-
+	cout << "Consumer " << con->myPCB << endl;
 	con->start();
 
 	for (i=0; i<N; i++){
 		pro[i] = new Producer(buff,'0'+i, TIME_SLICE);
 		pro[i]->start();
-		cout << "Producer " << i << endl;
+		cout << "Producer " << i << " " << pro[i]->myPCB << endl;
 	}
 
 	// kev = new KeyboardEvent(buff);

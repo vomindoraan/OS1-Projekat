@@ -24,7 +24,7 @@ protected:
 
 	friend class PCB;
 
-private:
+public:
 	PCB* myPCB;
 };
 

@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 	PCB::running = mainPCB;
 
 	Idle::instance(); // Create idle PCB
-
+	cout << mainPCB << " " << Idle::instance() << endl;
 	initIVT();
 
 	HARD_LOCKED(cout << "Test" << endl);

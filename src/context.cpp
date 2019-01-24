@@ -29,6 +29,14 @@ void interrupt Context::timerInterrupt(...)
             mov tsp, sp;
             mov tbp, bp;
         }
+		static int i = 0;
+		HARD_LOCKED(
+			if (i < 20) {
+			cout << "=== " << PCB::running << " " << PCB::running->savedLock_ << " " << PCB::running->state() << " " << requested_
+			     << " ss=" << tss << " sp=" << tsp << " bp=" << tbp << endl;
+			i++;
+			}
+		);
         PCB::running->ss_ = tss;
         PCB::running->sp_ = tsp;
         PCB::running->bp_ = tbp;
