@@ -42,7 +42,7 @@ public:
 protected:
 	void initializeStack(WrapperFunc wrapper);
 
-private:
+public:
 	Thread* thread_;
 
 	// Stack data

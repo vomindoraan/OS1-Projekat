@@ -31,6 +31,13 @@ void KernelSem::signal()
 void KernelSem::block()
 {
     LOCKED(
+				static int i = 0;
+		HARD_LOCKED(
+			if (i < 20) {
+			cout << "BLOCK   " << PCB::running << " " << PCB::running->savedLock_ << " " << PCB::running->state() << endl;
+			i++;
+			}
+		);
         PCB::running->state(PCB::BLOCKED);
         blocked_.pushBack(PCB::running);
         dispatch();
@@ -40,6 +47,13 @@ void KernelSem::block()
 void KernelSem::deblock()
 {
     LOCKED(
+						static int i = 0;
+		HARD_LOCKED(
+			if (i < 20) {
+			cout << "UNBLOCK " << PCB::running << " " << PCB::running->savedLock_ << " " << PCB::running->state() << endl;
+			i++;
+			}
+		);
         if (!blocked_.empty()) {
             PCB* pcb = blocked_.popFront();
             pcb->state(PCB::READY);
