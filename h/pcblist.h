@@ -12,6 +12,7 @@ public:
 
     PCB* front() const { return front_->pcb; }
     PCB* back()  const { return back_->pcb; }
+    bool empty() const { return size_ == 0; }
 
     void pushBack(PCB* pcb);
     PCB* popFront();

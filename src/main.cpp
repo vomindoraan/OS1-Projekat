@@ -4,7 +4,8 @@
 
 int userMain(int argc, char* argv[]);
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
 	HARD_LOCKED(cout << "Start" << endl);
 
 	// initIVT();

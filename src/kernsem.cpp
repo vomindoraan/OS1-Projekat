@@ -40,6 +40,10 @@ void KernelSem::block()
 void KernelSem::deblock()
 {
     LOCKED(
-
+        if (!blocked_.empty()) {
+            PCB* pcb = blocked_.popFront();
+            pcb->state(PCB::READY);
+            Scheduler::put(pcb);
+        }
     )
 }
