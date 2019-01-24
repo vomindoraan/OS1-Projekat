@@ -57,11 +57,11 @@ private:
 	// Wait/sleep data
 	PCBList waiting_;
 
-	void saveRegs(Register  ss, Register  sp, Register  bp) { ss_ = ss; sp_ = sp; bp_ = bp; }
-	void loadRegs(Register& ss, Register& sp, Register& bp) { ss = ss_; sp = sp_; bp = bp_; }
+	void loadRegs(Register  ss, Register  sp, Register  bp) { ss_ = ss; sp_ = sp; bp_ = bp; }
+	void saveRegs(Register& ss, Register& sp, Register& bp) { ss = ss_; sp = sp_; bp = bp_; }
 
-	void saveLock(Word  lock) { savedLock_ = lock; }
-	void loadLock(Word& lock) { lock = savedLock_; }
+	void loadLock(Word  lock) { savedLock_ = lock; }
+	void saveLock(Word& lock) { lock = savedLock_; }
 };
 
 #endif

@@ -24,12 +24,12 @@ void interrupt Context::timerInterrupt(...)
 
     if (requested_ || (!PCB::running->infinite() && timeLeft == 0 && !lock)) {
         asm {
-            mov tsp, sp;
             mov tss, ss;
+            mov tsp, sp;
             mov tbp, bp;
         }
-        PCB::running->saveRegs(tsp, tss, tbp);
-        PCB::running->saveLock(lock);
+        PCB::running->loadRegs(tss, tsp, tbp);
+        PCB::running->loadLock(lock);
 
         if (PCB::running->state() == PCB::RUNNING &&
             PCB::running->thread() != /* TODO */)
@@ -43,11 +43,11 @@ void interrupt Context::timerInterrupt(...)
         PCB::running->state(PCB::RUNNING);
         PCB::running->timeLeft_ = PCB::running->timeSlice();
 
-        PCB::running->loadLock(lock);
-        PCB::running->loadRegs(tsp, tss, tbp);
+        PCB::running->saveLock(lock);
+        PCB::running->saveRegs(tss, tsp, tbp);
         asm {
-            mov sp, tsp;
             mov ss, tss;
+            mov sp, tsp;
             mov bp, tbp;
         }
 
