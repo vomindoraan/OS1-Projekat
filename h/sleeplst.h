@@ -27,4 +27,6 @@ private:
 	Time  currentTime_;
 };
 
+extern SleepList* sleepList;
+
 #endif

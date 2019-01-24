@@ -1,6 +1,7 @@
 #include "pcb.h"
-#include "idle.h"
+#include "idlepcb.h"
 #include "locks.h"
+#include "sleeplst.h"
 #include <dos.h>
 
 Word      const PCB::PSW_INIT_VALUE = 0x0200; // I=1
@@ -40,7 +41,7 @@ void PCB::waitToComplete()
 {
 	LOCKED(
 		/* Can't wait on itself nor on terminated threads nor on the idle thread */
-		if (PCB::running != this && state() != PCB::TERMINATED && this != Idle::instance()) {
+		if (PCB::running != this && state() != PCB::TERMINATED && this != idlePCB) {
 			PCB::running->state(PCB::BLOCKED);
 			waiting_.pushBack(PCB::running);
 			dispatch();

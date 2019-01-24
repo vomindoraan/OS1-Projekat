@@ -27,7 +27,7 @@ PCB* PCBList::popFront()
 {
 	LOCKED(
 		PCB* ret = NULL;
-		if (front) {
+		if (front_) {
 			ret = front_->pcb;
 			Node* temp = front_;
 			front_ = front_->next;

@@ -1,8 +1,9 @@
 #include "context.h"
-#include "idle.h"
+#include "idlepcb.h"
 #include "ivt.h"
 #include "locks.h"
 #include "pcb.h"
+#include "sleeplst.h"
 
 bool volatile Context::lockTimedOut_ = false;
 bool volatile Context::requested_    = false;
@@ -35,13 +36,13 @@ void interrupt Context::timerInterrupt(...)
 		PCB::running->bp_ = tbp;
 		PCB::running->savedLock_ = lock;
 
-		if (PCB::running->state() == PCB::RUNNING && PCB::running != Idle::instance()) {
+		if (PCB::running->state() == PCB::RUNNING && PCB::running != idlePCB) {
 			PCB::running->state(PCB::READY);
 			Scheduler::put(PCB::running);
 		}
 
 		PCB::running = Scheduler::get();
-		if (!PCB::running) PCB::running = Idle::instance();
+		if (!PCB::running) PCB::running = idlePCB;
 		PCB::running->state(PCB::RUNNING);
 		PCB::running->timeLeft_ = PCB::running->timeSlice_;
 
