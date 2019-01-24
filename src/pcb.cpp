@@ -47,13 +47,13 @@ void PCB::waitToComplete()
 			dispatch();
 		}
 	)
-	// TODO: Maybe move dispatch out of LOCKED
 }
 
 void PCB::sleep(Time timeToSleep)
 {
 	if (!timeToSleep) return;
 	LOCKED(
+		PCB:running->state(PCB::BLOCKED);
 		sleepList->add(PCB::running, timeToSleep);
 		dispatch();
 	)

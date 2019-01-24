@@ -31,11 +31,9 @@ void Thread::waitToComplete()
 	)
 }
 
-void sleep(Time timeToSleep)
+void Thread::sleep(Time timeToSleep)
 {
-	LOCKED(
-		PCB::sleep(timeToSleep);
-	)
+	PCB::sleep(timeToSleep);
 }
 
 void dispatch()

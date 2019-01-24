@@ -17,10 +17,12 @@ void SleepList::add(PCB* pcb, Time timeToSleep)
 	LOCKED(
 		Node* newNode = new Node(pcb, currentTime_ + timeToSleep);
 
+		Node* curr = first_;
 		Node* prev = NULL;
-		for (Node* curr = first_;
-		     curr && curr->wakeUpTime < newNode->wakeUpTime;
-			 prev = curr, curr = curr->next);
+		while (curr && curr->wakeUpTime < newNode->wakeUpTime) {
+			prev = curr;
+			curr = curr->next;
+		}
 
 		(prev ? prev->next : first_) = newNode;
 		newNode->next = curr;
@@ -35,6 +37,7 @@ void SleepList::wakeUp()
 
 			while (first_ && first_->wakeUpTime <= currentTime_) {
 				Node* temp = first_;
+				first_->pcb->state(PCB::READY);
 				Scheduler::put(first_->pcb);
 				first_ = first_->next;
 				delete temp;
