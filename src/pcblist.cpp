@@ -13,7 +13,7 @@ void PCBList::pushBack(PCB* pcb)
             back_->next = node;
         }
         back_ = node;
-        size_++;
+        ++size_;
     )
 }
 
@@ -28,7 +28,7 @@ PCB* PCBList::popFront()
         if (!front_) back_ = NULL;
 
         delete old;
-        size_--;
+        --size_;
     )
     return ret;
 }

@@ -9,7 +9,7 @@ enum IVTNumbers {
 	IVTNO_SYSCALL_EXIT  = 0x61,
 };
 
-extern InterruptRoutine oldTimer;
+extern InterruptRoutine oldTimerInterrupt;
 
 void initIVT();
 void restoreIVT();

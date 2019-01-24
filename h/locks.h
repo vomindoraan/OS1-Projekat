@@ -4,11 +4,11 @@
 #include "context.h"
 #include "types.h"
 
-extern int volatile globalLock;
+extern int volatile lock;
 void dispatch();
 
-#define LOCK      globalLock++
-#define UNLOCK    if (--globalLock == 0 && Context::timeUp()) { dispatch(); }
+#define LOCK      ++lock
+#define UNLOCK    if (--lock == 0 && Context::lockTimedOut()) { dispatch(); }
 #define LOCKED(s) LOCK; s; UNLOCK;
 
 #define HARD_LOCK      asm { pushf; cli; }

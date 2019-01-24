@@ -3,13 +3,20 @@
 
 #include "types.h"
 
+void tick();
+
 class Context {
 public:
-    static bool timeUp();
-    static void interrupt timerInterrupt();
+    static void interrupt timerInterrupt(...);
+    static bool lockTimedOut() { return lockTimedOut_; }
+    static void requestChange() { requested_ = true; }
 
 private:
+    Context() {}
+    ~Context() {}
 
+    static bool volatile lockTimedOut_;
+    static bool volatile requested_;
 };
 
 #endif
