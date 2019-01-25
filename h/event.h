@@ -1,6 +1,7 @@
 #ifndef _EVENT_H_
 #define _EVENT_H_
 
+#include "ivt.h"
 #include "types.h"
 
 class KernelEv;

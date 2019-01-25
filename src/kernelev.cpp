@@ -14,10 +14,14 @@ KernelEv::~KernelEv()
 
 void KernelEv::wait()
 {
-	if (PCB::running == pcb_) sem_.wait(1);
+	LOCKED(
+		if (PCB::running == pcb_) sem_.wait(1);
+	)
 }
 
 void KernelEv::signal()
 {
-	sem_.signal();
+	LOCKED(
+		sem_.signal();
+	)
 }

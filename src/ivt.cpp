@@ -25,15 +25,17 @@ void restoreInterrupts()
 IVTEntry* IVTEntry::table_[256] = {0};
 
 IVTEntry::IVTEntry(IVTNo ivtNo, InterruptRoutine newInterrupt)
-	: ivtNo_(ivtNo), newInterrupt_(newInterrupt), event_(NULL)
-{}
+	: ivtNo_(ivtNo), newInterrupt(newInterrupt), event_(NULL)
+{
+	table_[ivtNo] = this;
+}
 
 void IVTEntry::setEvent(KernelEv* event)
 {
 	event_ = event;
 	HARD_LOCKED(
-		oldInterrupt_ = getvect(ivtNo_);
-		setvect(ivtNo_, newInterrupt_);
+		oldInterrupt = getvect(ivtNo_);
+		setvect(ivtNo_, newInterrupt);
 	)
 }
 
@@ -41,6 +43,6 @@ void IVTEntry::restore()
 {
 	event_ = NULL;
 	HARD_LOCKED(
-		setvect(ivtNo_, oldInterrupt_);
+		setvect(ivtNo_, oldInterrupt);
 	)
 }

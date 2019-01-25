@@ -26,23 +26,25 @@ public:
 	void setEvent(KernelEv* event);
 	void restore();
 
+	InterruptRoutine oldInterrupt;
+	InterruptRoutine newInterrupt;
+
 private:
 	static IVTEntry* table_[];
 
-	IVTNo            ivtNo_;
-	InterruptRoutine oldInterrupt_;
-	InterruptRoutine newInterrupt_;
-	KernelEv*        event_;
+	IVTNo     ivtNo_;
+	KernelEv* event_;
 };
 
-#define PREPAREENTRY(ivtNo, callOld)                   \
-extern IVTEntry ivtEntry##ivtNo;                       \
-                                                       \
-void interrupt eventInterrupt##ivtNo() {               \
-	if (callOld) ivtEntry##ivtNo.oldInterrupt();       \
-	ivtEntry##ivtNo.signal();                          \
-}                                                      \
-                                                       \
+#define PREPAREENTRY(ivtNo, callOld)                    \
+extern IVTEntry ivtEntry##ivtNo;                        \
+                                                        \
+void interrupt eventInterrupt##ivtNo(...) {             \
+    ivtEntry##ivtNo.signal();                           \
+    if (callOld) ivtEntry##ivtNo.oldInterrupt();        \
+    dispatch();                                         \
+}                                                       \
+                                                        \
 IVTEntry ivtEntry##ivtNo(ivtNo, eventInterrupt##ivtNo);
 
 #endif
