@@ -19,12 +19,12 @@ int main(int argc, char* argv[])
 	mainPCB->state(PCB::RUNNING);
 	PCB::running = mainPCB;
 
-	initIVT();
+	initializeInterrupts();
 
 	HARD_LOCKED(cout << "User" << endl);
 	int ret = userMain(argc, argv);
 
-	restoreIVT();
+	restoreInterrupts();
 
 	HARD_LOCKED(cout << "Finish" << endl);
 
