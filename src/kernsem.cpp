@@ -31,8 +31,8 @@ void KernelSem::signal()
 void KernelSem::block()
 {
 	LOCKED(
-		PCB::running->state(PCB::BLOCKED);
-		blocked_.pushBack(PCB::running);
+		PCB::runningPCB->state(PCB::BLOCKED);
+		blocked_.pushBack(PCB::runningPCB);
 		dispatch();
 	)
 }

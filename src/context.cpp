@@ -12,7 +12,7 @@ static Register volatile tsp, tss, tbp;
 
 void interrupt Context::timerInterrupt(...)
 {
-	Time& timeLeft = PCB::running->timeLeft_;
+	Time& timeLeft = PCB::runningPCB->timeLeft_;
 
 	if (!requested_) {
 		oldTimerInterrupt();
@@ -25,31 +25,31 @@ void interrupt Context::timerInterrupt(...)
 		}
 	}
 
-	if (requested_ || (!PCB::running->unlimitedDuration() && timeLeft == 0 && !lock)) {
+	if (requested_ || (!PCB::runningPCB->unlimitedDuration() && timeLeft == 0 && !lock)) {
 		asm {
 			mov tss, ss;
 			mov tsp, sp;
 			mov tbp, bp;
 		}
-		PCB::running->ss_ = tss;
-		PCB::running->sp_ = tsp;
-		PCB::running->bp_ = tbp;
-		PCB::running->savedLock_ = lock;
+		PCB::runningPCB->ss_ = tss;
+		PCB::runningPCB->sp_ = tsp;
+		PCB::runningPCB->bp_ = tbp;
+		PCB::runningPCB->savedLock_ = lock;
 
-		if (PCB::running->state() == PCB::RUNNING && PCB::running != idlePCB) {
-			PCB::running->state(PCB::READY);
-			Scheduler::put(PCB::running);
+		if (PCB::runningPCB->state() == PCB::RUNNING && PCB::runningPCB != idlePCB) {
+			PCB::runningPCB->state(PCB::READY);
+			Scheduler::put(PCB::runningPCB);
 		}
 
-		PCB::running = Scheduler::get();
-		if (!PCB::running) PCB::running = idlePCB;
-		PCB::running->state(PCB::RUNNING);
-		PCB::running->timeLeft_ = PCB::running->timeSlice_;
+		PCB::runningPCB = Scheduler::get();
+		if (!PCB::runningPCB) PCB::runningPCB = idlePCB;
+		PCB::runningPCB->state(PCB::RUNNING);
+		PCB::runningPCB->timeLeft_ = PCB::runningPCB->timeSlice_;
 
-		lock = PCB::running->savedLock_;
-		tss = PCB::running->ss_;
-		tsp = PCB::running->sp_;
-		tbp = PCB::running->bp_;
+		lock = PCB::runningPCB->savedLock_;
+		tss = PCB::runningPCB->ss_;
+		tsp = PCB::runningPCB->sp_;
+		tbp = PCB::runningPCB->bp_;
 		asm {
 			mov ss, tss;
 			mov sp, tsp;

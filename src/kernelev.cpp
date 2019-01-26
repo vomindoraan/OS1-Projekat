@@ -2,7 +2,7 @@
 #include "ivt.h"
 
 KernelEv::KernelEv(IVTNo ivtNo)
-	: ivtNo_(ivtNo), pcb_(PCB::running), sem_(0)
+	: ivtNo_(ivtNo), pcb_(PCB::runningPCB), sem_(0)
 {
 	IVTEntry::get(ivtNo_)->setEvent(this);
 }
@@ -15,7 +15,7 @@ KernelEv::~KernelEv()
 void KernelEv::wait()
 {
 	LOCKED(
-		if (PCB::running == pcb_) sem_.wait(1);
+		if (PCB::runningPCB == pcb_) sem_.wait(1);
 	)
 }
 

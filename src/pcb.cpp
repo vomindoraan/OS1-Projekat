@@ -7,7 +7,7 @@
 Word      const PCB::PSW_INIT_VALUE = 0x0200; // I=1
 StackSize const PCB::MAX_STACK_SIZE = 0x1000; // 64KB
 
-PCB* PCB::running = NULL;
+PCB* PCB::runningPCB = NULL;
 
 PCB::PCB(StackSize stackSize, Time timeSlice, Thread* thread)
 	: thread_(thread), stack_(NULL)
@@ -41,9 +41,9 @@ void PCB::waitToComplete()
 {
 	LOCKED(
 		/* Can't wait on itself nor on terminated threads nor on the idle thread */
-		if (PCB::running != this && state() != PCB::TERMINATED && this != idlePCB) {
-			PCB::running->state(PCB::BLOCKED);
-			waiting_.pushBack(PCB::running);
+		if (PCB::runningPCB != this && state() != PCB::TERMINATED && this != idlePCB) {
+			PCB::runningPCB->state(PCB::BLOCKED);
+			waiting_.pushBack(PCB::runningPCB);
 			dispatch();
 		}
 	)
@@ -53,19 +53,19 @@ void PCB::sleep(Time timeToSleep)
 {
 	if (!timeToSleep) return;
 	LOCKED(
-		PCB:running->state(PCB::BLOCKED);
-		sleepList->add(PCB::running, timeToSleep);
+		PCB:runningPCB->state(PCB::BLOCKED);
+		sleepList->add(PCB::runningPCB, timeToSleep);
 		dispatch();
 	)
 }
 
 void PCB::threadWrapper()
 {
-	PCB::running->thread_->run();
+	PCB::runningPCB->thread_->run();
 
 	LOCKED(
-		PCB::running->state(PCB::TERMINATED);
-		PCB::running->waiting_.rescheduleAll();
+		PCB::runningPCB->state(PCB::TERMINATED);
+		PCB::runningPCB->waiting_.rescheduleAll();
 		dispatch();
 	)
 }

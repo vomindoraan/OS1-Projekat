@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 
 	// Set main function PCB
 	mainPCB->state(PCB::RUNNING);
-	PCB::running = mainPCB;
+	PCB::runningPCB = mainPCB;
 
 	initializeInterrupts();
 
