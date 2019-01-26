@@ -1,5 +1,5 @@
 #include "context.h"
-#include "idlepcb.h"
+#include "idle.h"
 #include "ivt.h"
 #include "locks.h"
 #include "pcb.h"

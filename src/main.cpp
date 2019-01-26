@@ -1,5 +1,5 @@
 #include "locks.h"
-#include "idlepcb.h"
+#include "idle.h"
 #include "ivt.h"
 #include "pcb.h"
 #include "sleeplst.h"
