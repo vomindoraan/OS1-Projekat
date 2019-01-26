@@ -4,7 +4,7 @@
 #include "types.h"
 
 StackSize const defaultStackSize = 4096UL;
-Time const defaultTimeSlice = 2U; // default = 2*55ms
+Time      const defaultTimeSlice = 2U; // default = 2*55ms
 
 class PCB; // Kernel's implementation of a user's thread
 

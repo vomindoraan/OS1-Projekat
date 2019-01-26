@@ -1,8 +1,9 @@
 #ifndef _KERNELEV_H_
 #define _KERNELEV_H_
 
-#include "pcb.h"
 #include "kernsem.h"
+#include "pcb.h"
+#include "types.h"
 
 class KernelEv {
 public:

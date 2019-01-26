@@ -11,6 +11,4 @@ private:
 	static void idleWrapper();
 };
 
-extern IdlePCB* idlePCB;
-
 #endif

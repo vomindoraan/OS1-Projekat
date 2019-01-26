@@ -1,7 +1,7 @@
 #ifndef _EVENT_H_
 #define _EVENT_H_
 
-#include "ivt.h"
+#include "ivt.h" // PREPAREENTRY
 #include "types.h"
 
 class KernelEv;
@@ -14,9 +14,9 @@ public:
 	void wait();
 
 protected:
-	friend class KernelEv;
-
 	void signal(); // can call KernelEv
+
+	friend class KernelEv;
 
 private:
 	KernelEv* myImpl;

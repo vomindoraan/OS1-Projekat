@@ -21,8 +21,6 @@ public:
 	static Word      const PSW_INIT_VALUE;
 	static StackSize const MAX_STACK_SIZE;
 
-	static PCB* runningPCB;
-
 	PCB(StackSize stackSize, Time timeSlice, Thread* thread = NULL);
 	~PCB();
 

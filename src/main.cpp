@@ -1,36 +1,21 @@
 #include "locks.h"
-#include "idle.h"
-#include "ivt.h"
-#include "pcb.h"
-#include "sleeplst.h"
+#include "system.h"
 #include <iostream.h>
-
-PCB*       mainPCB   = new PCB(0, defaultTimeSlice);
-IdlePCB*   idlePCB   = new IdlePCB(0x400UL, 1U);
-SleepList* sleepList = new SleepList();
 
 int userMain(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 {
-	HARD_LOCKED(cout << "Start" << endl);
+	cout << "Start" << endl;
+	System::start();
 
-	// Set main function PCB
-	mainPCB->state(PCB::RUNNING);
-	PCB::runningPCB = mainPCB;
-
-	initializeInterrupts();
-
-	HARD_LOCKED(cout << "User" << endl);
+	HARD_LOCKED(
+		cout << "User" << endl
+	);
 	int ret = userMain(argc, argv);
 
-	restoreInterrupts();
-
-	HARD_LOCKED(cout << "Finish" << endl);
-
-	delete mainPCB;
-	delete idlePCB;
-	delete sleepList;
+	System::finish();
+	cout << "Finish" << endl;
 
 	return ret;
 }

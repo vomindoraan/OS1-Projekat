@@ -1,6 +1,6 @@
 #include "pcblist.h"
-#include "pcb.h"
 #include "locks.h"
+#include "pcb.h"
 #include "schedule.h"
 
 PCBList::~PCBList()

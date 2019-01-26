@@ -1,7 +1,7 @@
 #include "kernsem.h"
 #include "locks.h"
-#include "pcb.h"
 #include "schedule.h"
+#include "system.h"
 
 int KernelSem::wait(int toBlock)
 {
@@ -31,8 +31,8 @@ void KernelSem::signal()
 void KernelSem::block()
 {
 	LOCKED(
-		PCB::runningPCB->state(PCB::BLOCKED);
-		blocked_.pushBack(PCB::runningPCB);
+		System::runningPCB->state(PCB::BLOCKED);
+		blocked_.pushBack(System::runningPCB);
 		dispatch();
 	)
 }

@@ -1,13 +1,10 @@
 #include "pcb.h"
-#include "idle.h"
 #include "locks.h"
-#include "sleeplst.h"
+#include "system.h"
 #include <dos.h>
 
 Word      const PCB::PSW_INIT_VALUE = 0x0200; // I=1
 StackSize const PCB::MAX_STACK_SIZE = 0x1000; // 64KB
-
-PCB* PCB::runningPCB = NULL;
 
 PCB::PCB(StackSize stackSize, Time timeSlice, Thread* thread)
 	: thread_(thread), stack_(NULL)
@@ -40,10 +37,12 @@ void PCB::initializeStack(WrapperFunc wrapper)
 void PCB::waitToComplete()
 {
 	LOCKED(
-		/* Can't wait on itself nor on terminated threads nor on the idle thread */
-		if (PCB::runningPCB != this && state() != PCB::TERMINATED && this != idlePCB) {
-			PCB::runningPCB->state(PCB::BLOCKED);
-			waiting_.pushBack(PCB::runningPCB);
+		if (System::runningPCB != this    /* Can't wait on itself */
+			&& state() != PCB::TERMINATED /* No need to wait on terminated threads */
+			&& this != System::idlePCB)   /* Can't wait on the idle thread */
+		{
+			System::runningPCB->state(PCB::BLOCKED);
+			waiting_.pushBack(System::runningPCB);
 			dispatch();
 		}
 	)
@@ -53,19 +52,19 @@ void PCB::sleep(Time timeToSleep)
 {
 	if (!timeToSleep) return;
 	LOCKED(
-		PCB:runningPCB->state(PCB::BLOCKED);
-		sleepList->add(PCB::runningPCB, timeToSleep);
+		System::runningPCB->state(PCB::BLOCKED);
+		System::sleepList->add(System::runningPCB, timeToSleep);
 		dispatch();
 	)
 }
 
 void PCB::threadWrapper()
 {
-	PCB::runningPCB->thread_->run();
+	System::runningPCB->thread_->run();
 
 	LOCKED(
-		PCB::runningPCB->state(PCB::TERMINATED);
-		PCB::runningPCB->waiting_.rescheduleAll();
+		System::runningPCB->state(PCB::TERMINATED);
+		System::runningPCB->waiting_.rescheduleAll();
 		dispatch();
 	)
 }
