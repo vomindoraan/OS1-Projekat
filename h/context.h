@@ -8,6 +8,8 @@ void tick();
 class Context {
 public:
 	static void interrupt timerInterrupt(...);
+	static void interrupt syscallEnter(...);
+	static void interrupt syscallExit(...);
 
 	static bool lockTimedOut()  { return lockTimedOut_; }
 	static void requestChange() { requested_ = true; }

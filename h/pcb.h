@@ -43,7 +43,7 @@ public:
 	friend class Context;
 
 protected:
-	void initializeStack(WrapperFunc wrapper);
+	void initializeStack(WrapperFunc wrapper, bool alloc = true);
 
 private:
 	Thread* thread_;

@@ -11,14 +11,18 @@ void initializeInterrupts()
 {
 	HARD_LOCKED(
 		oldTimerInterrupt = getvect(IVTNO_TIMER);
-		setvect(IVTNO_TIMER, Context::timerInterrupt);
+		setvect(IVTNO_TIMER,         Context::timerInterrupt);
+		setvect(IVTNO_SYSCALL_ENTER, Context::syscallEnter);
+		setvect(IVTNO_SYSCALL_EXIT,  Context::syscallExit);
 	)
 }
 
 void restoreInterrupts()
 {
 	HARD_LOCKED(
-		setvect(IVTNO_TIMER, oldTimerInterrupt);
+		setvect(IVTNO_TIMER,         oldTimerInterrupt);
+		setvect(IVTNO_SYSCALL_ENTER, NULL);
+		setvect(IVTNO_SYSCALL_EXIT,  NULL);
 	)
 }
 

@@ -22,9 +22,9 @@ PCB::~PCB()
 	if (stack_) delete[] stack_;
 }
 
-void PCB::initializeStack(WrapperFunc wrapper)
+void PCB::initializeStack(WrapperFunc wrapper, bool alloc)
 {
-	stack_ = new Word[stackCount_];
+	if (alloc) stack_ = new Word[stackCount_];
 
 	stack_[stackCount_ - 1] = PSW_INIT_VALUE;  // PSW
 	stack_[stackCount_ - 2] = FP_SEG(wrapper); // CS

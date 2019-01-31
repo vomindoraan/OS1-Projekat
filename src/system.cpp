@@ -1,5 +1,7 @@
 #include "system.h"
 #include "ivt.h"
+#include "locks.h"
+#include <dos.h>
 
 PCB*       System::runningPCB;
 PCB*       System::mainPCB;
@@ -36,5 +38,12 @@ void System::finish()
 
 void System::syscall(Syscall* params)
 {
-	// TODO
+	LOCK;
+	Register paramsSeg = FP_SEG(params), paramsOff = FP_OFF(params);
+	asm {
+		mov ax, paramsSeg;
+		mov bx, paramsOff;
+		int IVTNO_SYSCALL_ENTER;
+	}
+	UNLOCK;
 }
