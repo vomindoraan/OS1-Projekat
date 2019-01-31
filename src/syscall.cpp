@@ -1,9 +1,14 @@
 #include "syscall.h"
+#include "locks.h"
 #include <stdarg.h>
 
 Syscall::Syscall(size_t size, Operation op, ...)
-	: size(size), params(new Word[size])
+	: size(size)
 {
+	LOCKED(
+		params = new Word[size];
+	)
+
 	va_list args;
 	va_start(args, op);
 
@@ -13,4 +18,11 @@ Syscall::Syscall(size_t size, Operation op, ...)
 	}
 
 	va_end(args);
+}
+
+Syscall::~Syscall()
+{
+	LOCKED(
+		delete[] params;
+	)
 }

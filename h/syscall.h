@@ -33,7 +33,7 @@ struct Syscall {
 	Word*        params;
 
 	Syscall(size_t n, Operation op, ...);
-	~Syscall() { delete[] params; }
+	~Syscall();
 
 	friend class System;
 };
