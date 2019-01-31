@@ -28,3 +28,8 @@ void System::finish()
 	delete System::idlePCB;
 	delete System::sleepList;
 }
+
+void System::syscall(Syscall* params)
+{
+	// TODO
+}

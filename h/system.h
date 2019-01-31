@@ -5,6 +5,7 @@
 #include "kernel.h"
 #include "pcb.h"
 #include "sleeplst.h"
+#include "syscall.h"
 
 class System {
 public:
@@ -16,6 +17,8 @@ public:
 
 	static void start();
 	static void finish();
+
+	static void syscall(Syscall* params);
 
 private:
 	System();
