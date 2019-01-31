@@ -7,7 +7,7 @@ Word      const PCB::PSW_INIT_VALUE = 0x0200; // I=1
 StackSize const PCB::MAX_STACK_SIZE = 0x1000; // 64KB
 
 PCB::PCB(StackSize stackSize, Time timeSlice, Thread* thread)
-	: KernelObj(THREAD), thread_(thread), stack_(NULL)
+	: KernelObj(), thread_(thread), stack_(NULL)
 	, timeSlice_(timeSlice), timeLeft_(timeSlice), state_(NEW), savedLock_(0)
 {
 	if (stackSize > MAX_STACK_SIZE) stackSize = MAX_STACK_SIZE;

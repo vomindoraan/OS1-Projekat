@@ -5,26 +5,17 @@
 
 class KernelObj {
 public:
-    enum Type {
-        THREAD,
-        SEMAPHORE,
-        EVENT,
-    };
+	KernelObj() : id_(uniqueId_++) {}
+	KernelObj(KernelObj const& o) : id_(uniqueId_++) {}
+	KernelObj& operator=(KernelObj const& o) { id_ = uniqueId_++; return *this; }
 
-    Type type() const { return type_; }
-    ID   id()   const { return id_; }
+	ID id() const { return id_; }
 
-protected:
-    KernelObj(Type type) : type_(type), id_(uniqueId_++) {}
-    KernelObj(KernelObj const& o) : type_(o.type_), id_(uniqueId_++) {}
-
-    friend class System;
+	friend class System;
 
 private:
-    static ID uniqueId_;
-
-    Type type_;
-    ID   id_;
+	static ID uniqueId_;
+	ID id_;
 };
 
 #endif
