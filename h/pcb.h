@@ -34,7 +34,7 @@ public:
 
 	bool unlimitedDuration() const { return timeSlice_ == 0; }
 
-	void reschedule() { LOCKED(state_ = READY; Scheduler::put(this)); }
+	void reschedule();
 
 	void waitToComplete();
 

@@ -9,12 +9,17 @@ SleepList* System::sleepList;
 
 void System::start()
 {
-	System::mainPCB    = new PCB(0, defaultTimeSlice);
+	System::mainPCB = new PCB(0, defaultTimeSlice);
 	System::mainPCB->state(PCB::RUNNING);
 	System::runningPCB = mainPCB;
-	System::kernelPCB  = new KernelPCB(0x400UL, 0U);
-	System::idlePCB    = new IdlePCB  (0x400UL, 1U);
-	System::sleepList  = new SleepList();
+
+	System::kernelPCB = new KernelPCB(0x400UL, 0U);
+	// System::kernelPCB->reschedule();
+
+	System::idlePCB = new IdlePCB(0x400UL, 1U);
+	System::idlePCB->reschedule();
+
+	System::sleepList = new SleepList();
 
 	initializeInterrupts();
 }

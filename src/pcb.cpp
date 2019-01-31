@@ -35,6 +35,14 @@ void PCB::initializeStack(WrapperFunc wrapper)
 	sp_ = bp_ = FP_OFF(stack_ + stackCount_ - 12);
 }
 
+void PCB::reschedule()
+{
+	LOCKED(
+		state_ = PCB::READY;
+		Scheduler::put(this);
+	)
+}
+
 void PCB::waitToComplete()
 {
 	LOCKED(
