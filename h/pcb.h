@@ -1,6 +1,7 @@
 #ifndef _PCB_H_
 #define _PCB_H_
 
+#include "kernobj.h"
 #include "locks.h"
 #include "pcblist.h"
 #include "schedule.h"
@@ -8,7 +9,7 @@
 #include "types.h"
 #include <stdlib.h>
 
-class PCB {
+class PCB : public KernelObj {
 public:
 	enum State {
 		NEW,

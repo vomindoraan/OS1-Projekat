@@ -14,9 +14,7 @@ public:
 	void wait();
 
 protected:
-	void signal(); // can call KernelEv
-
-	friend class KernelEv;
+	void signal();
 
 private:
 	KernelEv* myImpl;

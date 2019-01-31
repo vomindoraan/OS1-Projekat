@@ -1,11 +1,12 @@
 #ifndef _KERNELEV_H_
 #define _KERNELEV_H_
 
+#include "kernobj.h"
 #include "kernsem.h"
 #include "pcb.h"
 #include "types.h"
 
-class KernelEv {
+class KernelEv : public KernelObj {
 public:
 	KernelEv(IVTNo ivtNo);
 	~KernelEv();

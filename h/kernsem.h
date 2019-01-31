@@ -1,11 +1,12 @@
 #ifndef _KERNSEM_H_
 #define _KERNSEM_H_
 
+#include "kernobj.h"
 #include "pcblist.h"
 
-class KernelSem {
+class KernelSem : public KernelObj {
 public:
-	KernelSem(int init = 1) : val_(init) {}
+	KernelSem(int init = 1) : KernelObj(KernelObj::SEMAPHORE), val_(init) {}
 	~KernelSem() { blocked_.rescheduleAll(); }
 
 	int wait(int toBlock);
