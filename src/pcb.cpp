@@ -7,14 +7,13 @@ Word      const PCB::PSW_INIT_VALUE = 0x0200; // I=1
 StackSize const PCB::MAX_STACK_SIZE = 0x1000; // 64KB
 
 PCB::PCB(StackSize stackSize, Time timeSlice, Thread* thread)
-	: KernelObj(KernelObj::THREAD)
-	, thread_(thread), stack_(NULL)
+	: KernelObj(THREAD), thread_(thread), stack_(NULL)
 	, timeSlice_(timeSlice), timeLeft_(timeSlice), state_(NEW), savedLock_(0)
 {
 	if (stackSize > MAX_STACK_SIZE) stackSize = MAX_STACK_SIZE;
 	stackCount_ = stackSize / sizeof(Word);
 
-	if (thread) initializeStack(PCB::threadWrapper);
+	if (thread) initializeStack(threadWrapper);
 }
 
 PCB::~PCB()
@@ -38,7 +37,7 @@ void PCB::initializeStack(WrapperFunc wrapper)
 void PCB::reschedule()
 {
 	LOCKED(
-		state_ = PCB::READY;
+		state_ = READY;
 		Scheduler::put(this);
 	)
 }
@@ -46,11 +45,11 @@ void PCB::reschedule()
 void PCB::waitToComplete()
 {
 	LOCKED(
-		if (System::runningPCB != this    /* Can't wait on itself */
-			&& state() != PCB::TERMINATED /* No need to wait on terminated threads */
-			&& this != System::idlePCB)   /* Can't wait on the idle thread */
+		if (System::runningPCB != this  /* Can't wait on itself */
+			&& state() != TERMINATED    /* No need to wait on terminated threads */
+			&& this != System::idlePCB) /* Can't wait on the idle thread */
 		{
-			System::runningPCB->state(PCB::BLOCKED);
+			System::runningPCB->state(BLOCKED);
 			waiting_.pushBack(System::runningPCB);
 			dispatch();
 		}
@@ -61,7 +60,7 @@ void PCB::sleep(Time timeToSleep)
 {
 	if (!timeToSleep) return;
 	LOCKED(
-		System::runningPCB->state(PCB::BLOCKED);
+		System::runningPCB->state(BLOCKED);
 		System::sleepList->add(System::runningPCB, timeToSleep);
 		dispatch();
 	)
@@ -72,7 +71,7 @@ void PCB::threadWrapper()
 	System::runningPCB->thread_->run();
 
 	LOCKED(
-		System::runningPCB->state(PCB::TERMINATED);
+		System::runningPCB->state(TERMINATED);
 		System::runningPCB->waiting_.rescheduleAll();
 		dispatch();
 	)

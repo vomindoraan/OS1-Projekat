@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 	System::start();
 
 	HARD_LOCKED(
-		cout << "User" << endl
+		cout << "User" << endl;
 	);
 	int ret = userMain(argc, argv);
 

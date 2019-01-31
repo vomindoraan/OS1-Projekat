@@ -9,17 +9,17 @@ SleepList* System::sleepList;
 
 void System::start()
 {
-	System::mainPCB = new PCB(0, defaultTimeSlice);
-	System::mainPCB->state(PCB::RUNNING);
-	System::runningPCB = mainPCB;
+	mainPCB = new PCB(0, defaultTimeSlice);
+	mainPCB->state(PCB::RUNNING);
+	runningPCB = mainPCB;
 
-	System::kernelPCB = new KernelPCB(0x400UL, 0U);
-	// System::kernelPCB->reschedule();
+	kernelPCB = new KernelPCB(0x400UL, 0U);
+	// kernelPCB->reschedule();
 
-	System::idlePCB = new IdlePCB(0x400UL, 1U);
-	System::idlePCB->reschedule();
+	idlePCB = new IdlePCB(0x400UL, 1U);
+	idlePCB->reschedule();
 
-	System::sleepList = new SleepList();
+	sleepList = new SleepList();
 
 	initializeInterrupts();
 }
@@ -28,10 +28,10 @@ void System::finish()
 {
 	restoreInterrupts();
 
-	delete System::mainPCB;
-	delete System::kernelPCB;
-	delete System::idlePCB;
-	delete System::sleepList;
+	delete mainPCB;
+	delete kernelPCB;
+	delete idlePCB;
+	delete sleepList;
 }
 
 void System::syscall(Syscall* params)

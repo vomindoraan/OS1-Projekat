@@ -3,7 +3,7 @@
 IdlePCB::IdlePCB(StackSize stackSize, Time timeSlice)
 	: PCB(stackSize, timeSlice)
 {
-	initializeStack(IdlePCB::idleWrapper);
+	initializeStack(idleWrapper);
 }
 
 void IdlePCB::idleWrapper()

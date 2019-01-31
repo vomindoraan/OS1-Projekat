@@ -3,7 +3,7 @@
 KernelPCB::KernelPCB(StackSize stackSize, Time timeSlice)
 	: PCB(stackSize, timeSlice)
 {
-	initializeStack(KernelPCB::syscallWrapper);
+	initializeStack(syscallWrapper);
 }
 
 void KernelPCB::syscallWrapper()

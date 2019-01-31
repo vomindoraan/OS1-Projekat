@@ -3,8 +3,7 @@
 #include "system.h"
 
 KernelEv::KernelEv(IVTNo ivtNo)
-	: KernelObj(KernelObj::EVENT)
-	, ivtNo_(ivtNo), pcb_(System::runningPCB), sem_(0)
+	: KernelObj(EVENT), ivtNo_(ivtNo), pcb_(System::runningPCB), sem_(0)
 {
 	IVTEntry::get(ivtNo_)->setEvent(this);
 }
