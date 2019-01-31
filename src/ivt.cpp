@@ -3,7 +3,6 @@
 #include "locks.h"
 #include "types.h"
 #include <dos.h>
-#include <stdlib.h>
 
 InterruptRoutine oldTimerInterrupt = NULL;
 

@@ -2,7 +2,6 @@
 #define _PCBLIST_H_
 
 #include "types.h"
-#include <stdlib.h>
 
 class PCB;
 

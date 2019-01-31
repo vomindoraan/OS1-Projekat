@@ -1,7 +1,6 @@
 #include "kernel.h"
 #include "ivt.h"
 #include "syscall.h"
-#include <stdlib.h>
 
 Syscall* KernelPCB::syscallParams = NULL;
 

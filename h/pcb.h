@@ -7,7 +7,6 @@
 #include "schedule.h"
 #include "thread.h"
 #include "types.h"
-#include <stdlib.h>
 
 class PCB : public KernelObj {
 public:
