@@ -1,7 +1,7 @@
 #include "idle.h"
 
 IdlePCB::IdlePCB(StackSize stackSize, Time timeSlice)
-	: PCB(stackSize, timeSlice)
+	: PCB(stackSize, timeSlice), state(READY)
 {
 	initializeStack(idleWrapper);
 }

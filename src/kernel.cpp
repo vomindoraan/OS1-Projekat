@@ -5,7 +5,7 @@
 Syscall* KernelPCB::syscallParams = NULL;
 
 KernelPCB::KernelPCB(StackSize stackSize, Time timeSlice)
-	: PCB(stackSize, timeSlice)
+	: PCB(stackSize, timeSlice), state(READY)
 {
 	initializeStack(syscallWrapper);
 }

@@ -19,7 +19,7 @@ void System::start()
 	// kernelPCB->reschedule();
 
 	idlePCB = new IdlePCB(0x400UL, 1U);
-	idlePCB->reschedule();
+	// idlePCB->reschedule();
 
 	sleepList = new SleepList();
 
