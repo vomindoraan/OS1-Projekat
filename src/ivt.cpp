@@ -31,21 +31,16 @@ IVTEntry::IVTEntry(IVTNo ivtNo, InterruptRoutine newInterrupt)
 	: ivtNo_(ivtNo), newInterrupt(newInterrupt), event_(NULL)
 {
 	table_[ivtNo] = this;
-}
-
-void IVTEntry::setEvent(KernelEv* event)
-{
-	event_ = event;
 	HARD_LOCKED(
 		oldInterrupt = getvect(ivtNo_);
 		setvect(ivtNo_, newInterrupt);
 	)
 }
 
-void IVTEntry::restore()
+IVTEntry::~IVTEntry()
 {
-	event_ = NULL;
 	HARD_LOCKED(
 		setvect(ivtNo_, oldInterrupt);
 	)
+	table_[ivtNo] = NULL;
 }

@@ -5,7 +5,7 @@
 KernelEv::KernelEv(IVTNo ivtNo)
 	: KernelObj(), ivtNo_(ivtNo), pcb_(System::runningPCB), sem_(0)
 {
-	IVTEntry::get(ivtNo_)->setEvent(this);
+	IVTEntry::get(ivtNo_)->bind(this);
 }
 
 KernelEv::~KernelEv()

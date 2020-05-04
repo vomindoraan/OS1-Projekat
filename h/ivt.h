@@ -20,11 +20,12 @@ public:
 	static IVTEntry* get(IVTNo ivtNo) { return table_[ivtNo]; }
 
 	IVTEntry(IVTNo ivtNo, InterruptRoutine newInterrupt);
-	~IVTEntry() { restore(); }
+	~IVTEntry();
 
-	void signal() { event_->signal(); }
-	void setEvent(KernelEv* event);
-	void restore();
+	void bind(KernelEv* e) { event_ = e; }
+	void restore()         { event_ = NULL; }
+
+	void signal() { if (event_) event_->signal(); }
 
 	InterruptRoutine oldInterrupt;
 	InterruptRoutine newInterrupt;
