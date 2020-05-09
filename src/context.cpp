@@ -13,6 +13,7 @@ static bool     volatile inSyscall;
 
 void interrupt Context::timerInterrupt(...)
 {
+	bool unlimited = System::runningPCB->unlimitedDuration();
 	Time& timeLeft = System::runningPCB->timeLeft_;
 
 	if (!requested_) {
@@ -20,13 +21,15 @@ void interrupt Context::timerInterrupt(...)
 		System::sleepList->wakeUp();
 		tick();
 
-		if (timeLeft > 0) {
+		if (!unlimited && timeLeft > 0) {
 			--timeLeft;
 			if (timeLeft == 0 && lock) lockTimedOut_ = true;
 		}
+	} else if (lockTimedOut_) {
+		lockTimedOut_ = false;
 	}
 
-	if (requested_ || (!System::runningPCB->unlimitedDuration() && timeLeft == 0 && !lock)) {
+	if (requested_ || (!unlimited && timeLeft == 0 && !lock)) {
 		if (!inSyscall) {
 			asm {
 				mov tss, ss;
