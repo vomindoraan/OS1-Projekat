@@ -22,13 +22,12 @@ public:
 	IVTEntry(IVTNo ivtNo, InterruptRoutine newInterrupt);
 	~IVTEntry();
 
-	void bind(KernelEv* e) { event_ = e; }
-	void restore()         { event_ = NULL; }
-
 	void signal() { if (event_) event_->signal(); }
 
 	InterruptRoutine oldInterrupt;
 	InterruptRoutine newInterrupt;
+
+	friend class KernelEv;
 
 private:
 	static IVTEntry* table_[];

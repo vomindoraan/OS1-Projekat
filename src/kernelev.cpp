@@ -5,12 +5,12 @@
 KernelEv::KernelEv(IVTNo ivtNo)
 	: KernelObj(), ivtNo_(ivtNo), pcb_(System::runningPCB), sem_(0)
 {
-	IVTEntry::get(ivtNo_)->bind(this);
+	IVTEntry::get(ivtNo_)->event = this;
 }
 
 KernelEv::~KernelEv()
 {
-	IVTEntry::get(ivtNo_)->restore();
+	IVTEntry::get(ivtNo_)->event = NULL;
 }
 
 void KernelEv::wait()
