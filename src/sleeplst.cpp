@@ -37,8 +37,7 @@ void SleepList::wakeUp()
 
 			while (first_ && first_->wakeUpTime <= currentTime_) {
 				Node* temp = first_;
-				first_->pcb->state(PCB::READY);
-				Scheduler::put(first_->pcb);
+				first_->pcb->reschedule();
 				first_ = first_->next;
 				delete temp;
 			}
