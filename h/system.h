@@ -1,8 +1,8 @@
 #ifndef _SYSTEM_H_
 #define _SYSTEM_H_
 
-#include "idle.h"
-#include "kernel.h"
+#include "idlepcb.h"
+#include "kernpcb.h"
 #include "pcb.h"
 #include "sleeplst.h"
 #include "syscall.h"

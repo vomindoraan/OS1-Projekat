@@ -1,6 +1,6 @@
 #include "context.h"
 #include "ivt.h"
-#include "kernel.h"
+#include "kernpcb.h"
 #include "syscall.h"
 #include "system.h"
 #include <dos.h>

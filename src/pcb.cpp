@@ -59,6 +59,7 @@ void PCB::waitToComplete()
 void PCB::sleep(Time timeToSleep)
 {
 	if (!timeToSleep) return;
+
 	LOCKED(
 		System::runningPCB->state(BLOCKED);
 		System::sleepList->add(System::runningPCB, timeToSleep);
