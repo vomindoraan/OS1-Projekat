@@ -1,10 +1,10 @@
 #include "event.h"
-#include "kernelev.h"
+#include "kernevt.h"
 
 Event::Event(IVTNo ivtNo)
 {
 	LOCKED(
-		myImpl = new KernelEv(ivtNo)
+		myImpl = new KernelEvt(ivtNo)
 	);
 }
 

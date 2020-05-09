@@ -4,7 +4,7 @@
 #include "ivt.h" // PREPAREENTRY
 #include "types.h"
 
-class KernelEv;
+class KernelEvt;
 
 class Event {
 public:
@@ -17,7 +17,7 @@ protected:
 	void signal();
 
 private:
-	KernelEv* myImpl;
+	KernelEvt* myImpl;
 };
 
 #endif

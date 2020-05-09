@@ -1,7 +1,7 @@
 #ifndef _IVT_H_
 #define _IVT_H_
 
-#include "kernelev.h"
+#include "kernevt.h"
 #include "types.h"
 
 enum IVTNumbers {
@@ -27,13 +27,13 @@ public:
 	InterruptRoutine oldInterrupt;
 	InterruptRoutine newInterrupt;
 
-	friend class KernelEv;
+	friend class KernelEvt;
 
 private:
 	static IVTEntry* table_[];
 
-	IVTNo     ivtNo_;
-	KernelEv* event_;
+	IVTNo      ivtNo_;
+	KernelEvt* event_;
 };
 
 #define PREPAREENTRY(ivtNo, callOld)                    \
