@@ -40,6 +40,6 @@ void dispatch()
 {
 	HARD_LOCKED(
 		Context::requestChange();
-		Context::timerInterrupt();
+		asm int IVTNO_TIMER;
 	)
 }
